@@ -1,0 +1,11 @@
+#      RewriteEngine On
+
+#         RewriteCond %{REQUEST_FILENAME} !-d #checks the directories
+#         RewriteCond %{REQUEST_FILENAME} !-f #checks the file 
+
+#    RewriteRule ^ /index.php [L]  #it will run the index.php file if the file requested is not available
+
+# this htccess files are file runs each time on server and works on directory in which they are available 
+# in this this htaccess are available for public folder 
+
+# while the virtual hosts are run once when the server starts if we make any change we need to restart the server but it runs on all the directives
