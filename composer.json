@@ -1,0 +1,17 @@
+{
+    "name": "hp/phpiggy",
+    "description": "A PHP application for tracking expences",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Ramya Lakhani"
+        }
+    ],
+    "require": {},
+    "autoload":{
+        "psr-4": {
+            "Framework\\":"src/Framework",
+            "App\\":"src/App"
+                }
+    }
+}
