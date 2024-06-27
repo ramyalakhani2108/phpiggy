@@ -1,0 +1,19 @@
+what is template engine?
+package for generating dynamic html 
+it has features to help us loop through data, conditionally render templates , and import data into a template
+
+Why do we use template engine 
+->easy for frontend developer
+->Can isolate data 
+->most populars are ==>twig by symphony
+                    ==>blade by laravel
+
+in this course we have created a template engine for our framework
+
+
+
+Middleware
+- A function that can run before or after a controller has been executed.
+- in a nutshell, they are a feature for running functions before and after a controller handles a request
+- at that moment, code inside a controller only get executed for specific request  
+ 
