@@ -12,6 +12,7 @@ use Framework\TemplateEngine;
 class Container
 {
     private array $definitions = [];
+    private array $resolved = [];
 
     public function addDefinitions(array $newDefinitions)
     {
@@ -62,7 +63,7 @@ class Container
             }
             $dependencies[] = $this->get($type->getName()); //it needs id so we are passing name along with the get method
         }
-        dd($dependencies);
+        // dd($dependencies);
         return $reflectionClass->newInstanceArgs($dependencies); //it create new instances and we are returning it 
     }
 
@@ -73,8 +74,16 @@ class Container
             throw new ContainerExceptions("Class {$id} doesn't exist in the container.");
         } //validating id and checking the isn't a dependency with this id
         $factory = $this->definitions[$id];
-        dd($this->definitions[TemplateEngine::class]());
+        // dd($this->definitions[TemplateEngine::class]());
+
+        if (array_key_exists($id, $this->resolved)) {
+            return $this->resolved[$id];
+        }
         $dependency = $factory();
+        $this->resolved[$id] = $dependency;
+
+        //purpose of this resolve when we create instances it will given one id and each id will different for every instances 
+        // so for stopping it we use resove so our variable become accessible globally
         return $dependency;
     }
 }

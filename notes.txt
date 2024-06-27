@@ -17,3 +17,13 @@ Middleware
 - in a nutshell, they are a feature for running functions before and after a controller handles a request
 - at that moment, code inside a controller only get executed for specific request  
  
+what is a contract?
+- A contract is just another name for an interface
+- because they for a class to have a specific implementation similar to how you must fulfil an agreement
+- in this project we create interface contract for every middleware so all middleware have common methods 
+
+
+
+what is singleton pattern?
+- A design pattern for restricting  a class to a single instance 
+- we must provide a way to sharing instances between different class.

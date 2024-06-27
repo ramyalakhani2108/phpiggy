@@ -20,13 +20,17 @@ class HomeController
 
     public function __construct(private TemplateEngine $view)
     {
-        $this->view = new TemplateEngine(Paths::VIEW); //this is we used to call the path before delepency injection
+
+        // $this->view = new TemplateEngine(Paths::VIEW); //this is we used to call the path before delepency injection
     }
     public function home()
     {
-        echo $this->view->render("index.php", [
-            'title' => 'Home Page',
-        ]);
+        echo $this->view->render(
+            "index.php"
+            // , [
+            //     // 'title' => 'Home Page',
+            // ]
+        );
         // echo " Home page ";
     }
 }

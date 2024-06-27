@@ -6,6 +6,7 @@ namespace Framework;
 
 class TemplateEngine
 {
+    private array $global_TemplateData = [];
     public function __construct(private string $basePath)
     {
     }
@@ -15,7 +16,8 @@ class TemplateEngine
     {
         // $secret = "dsasadss"; //we cannot pass the variable like this to the file we wanted 
         extract($data, EXTR_SKIP); //this function is very help ful it will take every key as variable and make it variable and assign value to it
-
+        extract($this->global_TemplateData, EXTR_SKIP);
+        // dd($data);
         // output buffers : 
         // we may want to wait for everyline of PHP code to be executed after the php is finished  running.
         //this feature called output buffer
@@ -42,5 +44,9 @@ class TemplateEngine
     public function resolve(string $path)
     {
         return "{$this->basePath}/{$path}";
+    }
+    public function addGlobal(string $key, mixed $value)
+    {
+        $this->global_TemplateData[$key] = $value;
     }
 }

@@ -7,6 +7,7 @@ namespace Framework;
 class Router
 {
     private array $routes = [];
+    private array $middlewares = [];
 
     public function add(string $method, string $path, array $controller)
     {
@@ -60,7 +61,23 @@ class Router
             [$class, $function] = $route['controller']; //this will saperate class name and function 
 
             $controllerInstance = $container ? $container->resolve($class) :  new $class(); //completely acceptable to provide a string after the new keyword as long as the string points to the specific class with the namespace
-            $controllerInstance->{$function}(); //allow to pass a string as a method name after the arrow 
+
+
+            $action = fn () => $controllerInstance->{$function}(); //allow to pass a string as a method name after the arrow 
+
+            foreach ($this->middlewares as $middleware) {
+                $middlewareInstance = $container ? $container->resolve($middleware) : new $middleware;
+                $action = fn () => $middlewareInstance->process($action);
+            } //this will cause each middleware to execute in chain
+
+            $action();
+            return;
         }
+    }
+
+    public function addMiddleware(string $middleware)
+    {
+        $this->middlewares[] = $middleware;
+        // dd($this->middlewares);
     }
 }
