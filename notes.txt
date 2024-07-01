@@ -27,3 +27,33 @@ what is a contract?
 what is singleton pattern?
 - A design pattern for restricting  a class to a single instance 
 - we must provide a way to sharing instances between different class.
+
+
+What is http status code ?
+
+it is three digit intigier to inform the browser the status of the request
+1xx - information codes (request is still being request so connection doesnt end)
+2xx - success
+3xx - redirect user to different page
+4xx - client error 
+5xx - Server related error
+
+Session 
+
+At the moment we want to show errors after redirection of same page ,
+it becomes unavailable after redirection ,  session can resolve the issue
+
+php variables are stored temporarily after a page gets displayed in the browser
+from php server
+
+after a page get displayed the connection between the server and browser is closed 
+once the conneciton is get closed, php starts destroying data created during the connection.
+this allows for resources from the server to be free
+
+as a result, those result can be allocated for other requests from other users 
+
+
+for storing data session used 
+
+sessions are a feature for storing data longer than a single request. They are destroyed. They are distroyed after a user closes a browser 
+

@@ -11,24 +11,26 @@ use Framework\TemplateEngine;
 
 class Container
 {
-    private array $definitions = [];
+    private array $definitions = []; //creating an empty array to register all the definitions 
     private array $resolved = [];
 
     public function addDefinitions(array $newDefinitions)
     {
 
         $this->definitions = [...$this->definitions, ...$newDefinitions]; //merging array 
-    }
+    } //get an array with key as TemplateEngine class and key as the view folder path 
+    //adding data to the array we created for this class to store definitions 
+    // it will create multidimentional (assciative ) array 
 
 
     public function resolve(string $className) //it only provide us the controller name 
     // Now that we know what class to instantiate, we can look at its dependencies with reflective programming
     {
-        $reflectionClass = new ReflectionClass($className);
-
+        $reflectionClass = new ReflectionClass($className); //created reflaction class instance with the classname provided above  
+        
         if (!$reflectionClass->isInstantiable()) {
             throw new ContainerExceptions("Class {$className} is not instantiable ");
-        }
+        } //checking if the class can have object or not 
 
         $constructor = $reflectionClass->getConstructor(); //it will check that the class have constructor or not
         // if the class have no constructor there are no dependencies there 

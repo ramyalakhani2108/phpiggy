@@ -6,7 +6,7 @@ declare(strict_types=1);
 
 use Framework\TemplateEngine;
 use App\Config\Paths;
-
+use App\Services\ValidatorService;
 
 
 // return [
@@ -16,6 +16,9 @@ use App\Config\Paths;
 return [
     TemplateEngine::class => function () {
         return new TemplateEngine(Paths::VIEW);
+    },
+    ValidatorService::class => function () {
+        return new ValidatorService();
     }
 ];
 // we are going grab this array for that we need a property in a container for storing array of definitions

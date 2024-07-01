@@ -13,4 +13,12 @@ function e(mixed $value): string
 {
 
     return htmlspecialchars((string)$value);
-}//for escaping character
+} //for escaping character
+
+
+function redirectTo(string $path)
+{
+    header("Location: {$path}");
+    http_response_code(302); //302 refers temporary redirect 
+    exit;
+}

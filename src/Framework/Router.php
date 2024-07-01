@@ -6,18 +6,18 @@ namespace Framework;
 
 class Router
 {
-    private array $routes = [];
-    private array $middlewares = [];
+    private array $routes = []; //creating an empty array which stores the routes 
+    private array $middlewares = []; //creating an empty array which stores middleware 
 
-    public function add(string $method, string $path, array $controller)
+    public function add(string $method, string $path, array $controller) //accpeting three parameter method,routename and array of data[controller class namespace and its function to render]
     {
         $path = $this->normalizePath($path); //sending the path entered by developer to normalized it
         $this->routes[] = [
             'path' => $path,
             'method' => strtoupper($method),
             'controller' => $controller,
-        ]; //this will create a multi dimentional array for storing routes 
-        // print_r($this->routes);
+        ]; //this will create a multi dimentional array for storing route requested
+        // dd($this->routes);
     }
 
     public function normalizePath(string $path): string
@@ -45,9 +45,12 @@ class Router
 
     }
 
-    public function dispatch(string $path, string $method, Container $container = null)
+    public function dispatch(string $path, string $method, Container $container = null) //accpets the three parameters route path, method and container class object 
+    //the container is by default null because it will be good practice to use need container between route and controller for better structure 
+    // so to make our framework eligible for teh developers who dont uuse container make work
     {
-        $path = $this->normalizePath($path);
+        $path = $this->normalizePath($path); //getting the normalized path with standard method
+
         $method = strtoupper($method);
 
         foreach ($this->routes as $route) {
@@ -57,11 +60,13 @@ class Router
             ) {
                 // echo "#^{$route['path']}$#";
                 continue;
-            } //this condition will only executes when the path in routes or method matches exactly with dispach parameters  
+            } //this condition will only executes when the path in routes or method dont matches exactly with dispach parameters  
+            //basically above method is just finding the exact matching route from stored routes 
+
             [$class, $function] = $route['controller']; //this will saperate class name and function 
 
             $controllerInstance = $container ? $container->resolve($class) :  new $class(); //completely acceptable to provide a string after the new keyword as long as the string points to the specific class with the namespace
-
+            //in this if we provide the container then it will go to that resolve method with the class name 
 
             $action = fn () => $controllerInstance->{$function}(); //allow to pass a string as a method name after the arrow 
 

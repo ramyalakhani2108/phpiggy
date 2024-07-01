@@ -12,9 +12,17 @@ use App\Config\Paths;
 
 $app = new App(Paths::SOURCE . "app/container-definitions.php");
 
-registerRoutes($app);
-registerMiddleware($app);
+//after executing first line we successfully rendered the pages and added definitions in container 
+
+
+
+registerRoutes($app); //this method is used for register routes 
+registerMiddleware($app); // it will use for registering middlewares
+
+
+
+//here we are completed with the route and middleware we have successfully registered
 // $app->get('about/team');
 
 
-return $app;
+return $app; //return the app instance we have instantiated
