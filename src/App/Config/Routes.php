@@ -16,6 +16,7 @@ function registerRoutes(App $app) //it will accpet app class instance for regist
     // first parameter is the path or route name  of the class and second parameter as the array of details about the controller for render the data 
 
     $app->get('/register', [AuthController::class, 'registerView']);
+
     $app->post('/register', [AuthController::class, 'register']);
 } //it will register routes 
 //using composer.json it will allow us to autoload this files 

@@ -27,7 +27,7 @@ class Container
     // Now that we know what class to instantiate, we can look at its dependencies with reflective programming
     {
         $reflectionClass = new ReflectionClass($className); //created reflaction class instance with the classname provided above  
-        
+
         if (!$reflectionClass->isInstantiable()) {
             throw new ContainerExceptions("Class {$className} is not instantiable ");
         } //checking if the class can have object or not 

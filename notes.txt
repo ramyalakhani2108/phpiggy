@@ -57,3 +57,13 @@ for storing data session used
 
 sessions are a feature for storing data longer than a single request. They are destroyed. They are distroyed after a user closes a browser 
 
+
+
+PHP extension?
+
+PECL is shot form for PHP Extension Community Library.
+WHy?
+PHP has to two extention for communicating with databases.
+MSQLi - made for mySql 
+and 
+PDO - compatible with more Databases (we will use it)

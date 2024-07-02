@@ -19,6 +19,7 @@ class ValidationExceptionMiddleware implements MiddlewareInterface
             $_SESSION['errors'] = $e->errors;
             $excludedKeys = ['password', 'confirmPassowrd'];
             $oldFormData = $_POST;
+
             $formattedFormData = array_diff_key($oldFormData, array_flip($excludedKeys));
 
 
@@ -33,4 +34,4 @@ class ValidationExceptionMiddleware implements MiddlewareInterface
 
 
 //this technique of redirecting called prg 
-//post redirect get 
+//post redirect get  
