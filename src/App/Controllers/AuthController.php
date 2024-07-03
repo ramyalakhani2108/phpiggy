@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use Framework\TemplateEngine;
-use App\Services\ValidatorService;
+use App\Services\{ValidatorService, UserService};
 
 class AuthController
 {
     public function __construct(
         private TemplateEngine $view,
-        private ValidatorService $validatorService
+        private ValidatorService $validatorService,
+        private UserService $userService
     ) {
 
         // $this->view = new TemplateEngine(Paths::VIEW); //this is we used to call the path before delepency injection
@@ -21,6 +22,11 @@ class AuthController
         // echo $this->view->render("register.php", ['errors' => $_SESSION['errors']]); // we can send error like this but its not recommanded way 
         // better way is to use middleware
         echo $this->view->render("register.php");
+    }
+
+    public function loginView()
+    {
+        echo $this->view->render("login.php");
     }
 
     // understanding services 
@@ -44,5 +50,21 @@ class AuthController
     public function register()
     {
         $this->validatorService->validateRegister($_POST);
+        $this->userService->isEmailTaken($_POST['email']);
+        $this->userService->create($_POST);
+        redirectTo('/');
+    }
+
+    public function login()
+    {
+        $this->validatorService->validateLogin($_POST);
+        // $this->userService->isEmailTaken($_POST['email']);
+        $this->userService->login($_POST);
+        redirectTo("/");
+    }
+
+    public function logout(){
+        $this->userService->logout();
+        redirectTo("/");
     }
 }

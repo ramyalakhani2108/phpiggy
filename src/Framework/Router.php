@@ -16,8 +16,11 @@ class Router
             'path' => $path,
             'method' => strtoupper($method),
             'controller' => $controller,
+            'middlewares' => [] //each route going to store its own middleware 
         ]; //this will create a multi dimentional array for storing route requested
         // dd($this->routes);
+
+
     }
 
     public function normalizePath(string $path): string
@@ -69,8 +72,15 @@ class Router
             //in this if we provide the container then it will go to that resolve method with the class name 
 
             $action = fn () => $controllerInstance->{$function}(); //allow to pass a string as a method name after the arrow 
+            // $allMiddleware = [...$this->routes['middleware'], ...$this->middlewares]; //order matters
+            //middleware registered last executed first middleware first and root middleware last 
 
-            foreach ($this->middlewares as $middleware) {
+
+            // dd($this->routes['middleware']);
+            $allMiddleware = [...$route['middlewares'], ...$this->middlewares]; //order matters: global middlewares first, route-specific middlewares last
+            // dd([...$route['middlewares'], ...$this->middlewares]);
+            // from our framework, we are going to run global 
+            foreach ($allMiddleware as $middleware) {
                 $middlewareInstance = $container ? $container->resolve($middleware) : new $middleware;
                 $action = fn () => $middlewareInstance->process($action);
             } //this will cause each middleware to execute in chain
@@ -84,5 +94,11 @@ class Router
     {
         $this->middlewares[] = $middleware;
         // dd($this->middlewares);
+    }
+
+    public function addRouteMiddleware(string $middleware)
+    {
+        $lastRouteKey = array_key_last($this->routes);
+        $this->routes[$lastRouteKey]['middlewares'][] = $middleware;
     }
 }

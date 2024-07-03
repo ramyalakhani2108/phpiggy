@@ -1,10 +1,15 @@
 <? //echo $secret; //we cannot call variable like this or get value of variables from the template engine 
 ?>
-<?php include $this->resolve("partials/_header.php"); ?>
+<?php include $this->resolve("partials/_header.php");
+
+
+
+?>
 <!-- sometimes we may want to outsource sections of a page into a saperate template file. templates can be further broken into  "partials".  -->
 
 <!-- A 'Partial' is a section of a page for displaying a portion or section of a page -->
-
+<?php include $this->resolve("partials/_csrf.php");
+?>
 <!-- Start Main Content Area -->
 <section class="container mx-auto mt-12 p-4 bg-white shadow-md border border-gray-200 rounded">
     <div class="flex items-center justify-between border-b border-gray-200 pb-4">

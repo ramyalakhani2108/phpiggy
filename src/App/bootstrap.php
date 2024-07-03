@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 require __DIR__ . "/../../vendor/autoload.php";
 
+use Dotenv\Dotenv;
 
 use Framework\App;
 use function App\Config\{registerRoutes, registerMiddleware}; //we can import function using use function keyword
 use App\Config\Paths;
+
+$dotenv = Dotenv::createImmutable(Paths::ROOT);
+$dotenv->load(); //loading all the environment variables defined in .env file at the root directory of the project
 
 
 $app = new App(Paths::SOURCE . "app/container-definitions.php");

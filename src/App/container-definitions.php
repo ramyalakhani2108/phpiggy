@@ -4,9 +4,11 @@
 
 declare(strict_types=1);
 
-use Framework\TemplateEngine;
+use Framework\{TemplateEngine, Container, Database};
 use App\Config\Paths;
-use App\Services\ValidatorService;
+use App\Services\{ValidatorService, UserService};
+
+
 
 
 // return [
@@ -19,7 +21,21 @@ return [
     },
     ValidatorService::class => function () {
         return new ValidatorService();
+    },
+    Database::class => function () {
+        return
+            new Database($_ENV['DB_DRIVER'], [
+                'host' => $_ENV['DB_HOST'],
+                'port' => $_ENV['DB_PORT'],
+                'dbname' => $_ENV['DB_NAME']
+            ], $_ENV['DB_USER'], $_ENV['DB_PASS']);
+    },
+    UserService::class => function (Container $container) {
+        $db = $container->get(Database::class);
+
+        return new UserService($db);
     }
+
 ];
 // we are going grab this array for that we need a property in a container for storing array of definitions
 

@@ -67,3 +67,91 @@ PHP has to two extention for communicating with databases.
 MSQLi - made for mySql 
 and 
 PDO - compatible with more Databases (we will use it)
+
+
+DSN - Data Source name
+
+DSN format 
+driver-> we must provide a driver -> database type ->mySql,mariaDB etc..
+after that a color:
+after that we need to provide configuration pair 
+
+
+
+driver:key=value
+example, mysql:host=localhost
+
+
+
+what is prepared statement 
+
+why ?
+reason1.they are reusable becuase we are able to swap data at a moment's notice.
+reason2.Databases can validate the values before executing query, thus preventing SQL injection
+
+
+Transaction 
+group of sql queries 
+in most cases we are likely going to perform several queries on each request.
+if the queries are depend on one another we are likely to run into issues 
+
+
+if a single query fails within a transaction, we can revert changes applied by the previous queries
+
+
+data modeling 
+it is process of creating a diagram to act as a visual representation of our databases schema 
+completely optional 
+still crutial 
+
+
+Environment variables ?
+it's like global variable but the main difference is that Environment variables are available to the entire environment
+
+
+
+hashing
+
+We should never store passwords in plain text in database 
+that's why  we should hash the passwrod 
+Hashing is the process of transforming plain text into random text based on algorithm
+
+
+hashing vs encryption
+
+plain -> encryption -> encrypted text [the main difference is there is a key with using it that text can be converted to plain text]
+plain ->hashing -> hashed text [it cant be reversed]
+
+
+what is password salting ?
+
+salting is the process of adding onto the original password with a custom string or integer.
+
+
+bcrypt algorith 
+it's recommended algorithm to use to store passwords in database
+bcrypt is an algorithm that is slow
+
+vid.245,246
+Session Hijacking 
+session hijacking is a technique where cookies containing the user's session ID is stolen by a hacker 
+for securing 
+1.encrypt data with SSL 
+2. Disallowing scripts from accessing cookies on unsecure conneciton
+3. XSS protection
+4. Regenerate Session ID
+what are cookies ?
+
+Cookies are a strong feature for storing data on user's browser 
+
+
+CSRF
+
+Cross site request forgery 
+it occurs when a request is submitted without user's consent
+The idea work like this a hacker tricks the user into clicking the URL or submitting a form.
+typically they mask the URL to be harmless when in reality a URL can reset an email after the user initiates the request, their mail would get reset to an email owned by hacker
+Either way , the ultimate goal is to send a request to our site without user's permission or knowledge
+
+Synchronizer token pattern 
+A technique where the application produces a secret token embedded into page

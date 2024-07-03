@@ -81,7 +81,7 @@ class Container
         if (array_key_exists($id, $this->resolved)) {
             return $this->resolved[$id];
         }
-        $dependency = $factory();
+        $dependency = $factory($this);
         $this->resolved[$id] = $dependency;
 
         //purpose of this resolve when we create instances it will given one id and each id will different for every instances 
