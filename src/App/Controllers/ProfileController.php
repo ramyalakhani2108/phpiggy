@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Services\ProfileService;
+use App\Services\UserService;
+use App\Services\ValidatorService;
 use Framework\TemplateEngine;
 
 class ProfileController
@@ -13,7 +15,9 @@ class ProfileController
 
     public function __construct(
         private TemplateEngine $view,
-        private ProfileService $profileService
+        private ProfileService $profileService,
+        private ValidatorService $validatorService,
+        private UserService $userService
     ) {
         // $this->view = new TemplateEngine(Paths::VIEW);
     }
@@ -25,6 +29,7 @@ class ProfileController
         $userProfile = $this->profileService->getUserProfile((int)$params['user']);
 
         if (!$userProfile) {
+
             redirectTo("/");
         }
 
@@ -50,4 +55,13 @@ class ProfileController
 
     //     redirectTo($_SERVER['HTTP_REFERER']);
     // }
+
+    public function updateProfile()
+    {
+
+        $this->validatorService->validateProfile($_POST);
+        $this->userService->isEmailTakenProfile($_POST['email'], $_SESSION['user_id']);
+        $this->profileService->update($_POST);
+        redirectTo("/");
+    }
 }

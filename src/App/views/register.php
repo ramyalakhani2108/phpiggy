@@ -136,8 +136,8 @@
             <?php if (array_key_exists('email', $errors)) : ?>
                 <div class="bg-gray-100 mt-2 p-2 text-red-500">
                     <?php echo e($errors['email'][0]); ?>
-
-                <?php endif; ?>
+                </div>
+            <?php endif; ?>
         </label>
         <!-- Age -->
         <label class="block">

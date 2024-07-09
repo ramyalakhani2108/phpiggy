@@ -26,6 +26,25 @@ class UserService
             throw new ValidationException(['email' => 'Email Taken']);
         }
     }
+    public function isEmailTakenProfile(string $email, int $id)
+    {
+        $query = "SELECT COUNT(*) FROM users WHERE user_email=:email";
+        $emailCount = $this->db->query($query, [
+            'email' => $email
+        ])->count();
+
+        $query = "SELECT user_email FROM users WHERE user_email=:email";
+        $emailFind = $this->db->query($query, [
+            'email' => $email
+        ])->find();
+
+
+        if ($emailCount > 0) {
+            if ($email !== $emailFind['user_email']) {
+                throw new ValidationException(['email' => 'Email Taken']);
+            }
+        }
+    }
 
     public function create(array $formData)
     {

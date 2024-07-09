@@ -6,28 +6,51 @@
     <h2 class="text-2xl font-semibold mb-4 p-4">Account Settings</h2>
 
     <!-- Account Settings Form -->
-    <form action="/account/update" method="POST" enctype="multipart/form-data" class=" p-4  space-y-8">
+    <form method="POST" enctype="multipart/form-data" class=" p-4  space-y-8">
         <?php include $this->resolve("partials/_csrf.php"); ?>
 
         <!-- Username -->
         <div class="mt-6">
             <label for="username" class=" mb-4 block text-sm font-medium text-gray-700">Username</label>
-            <input type="text" id="username" name="username" value="<?php echo e($profile['user_email']); ?>" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm py-2 px-3">
+            <input type="text" id="username" name="username" value="<?php echo e($profile['username']); ?>" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm py-2 px-3">
         </div>
-
+        <?php if (array_key_exists('username', $errors)) : ?>
+            <div class="bg-gray-100 mt-2 p-2 text-red-500">
+                <?php echo e($errors['username'][0]); ?>
+            </div>
+        <?php endif; ?>
         <!-- Email -->
         <div class="mt-6">
             <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-            <input type="email" id="email" name="email" value="<?php echo e($profile['user_age']); ?>" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm py-2 px-3">
+            <input type="email" id="email" name="email" value="<?php echo e($profile['user_email']); ?>" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm py-2 px-3">
         </div>
+        <?php if (array_key_exists('email', $errors)) : ?>
+            <div class="bg-gray-100 mt-2 p-2 text-red-500">
+                <?php echo e($errors['email'][0]); ?>
+            </div>
+        <?php endif; ?>
 
+        <div class="mt-6">
+            <label for="email" class="block text-sm font-medium text-gray-700">Age</label>
 
+            <input id="age" value="<?php echo e($profile['user_age'] ?? "");  ?>" name=" age" type="number" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="" required />
 
+            <?php if (array_key_exists('age', $errors)) : ?>
+                <div class="bg-gray-100 mt-2 p-2 text-red-500">
+                    <?php echo e($errors['age'][0]); ?>
+                </div>
+            <?php endif; ?>
+        </div>
         <!-- Password -->
         <div class="mt-6">
             <label for="sociaMediaUrl" class="block text-sm font-medium text-gray-700">Social Media Url</label>
-            <input type="text" value="<?php echo e($profile['user_social_media_url']) ?>" id="password" name="password" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm py-2 px-3">
+            <input type="text" value="<?php echo e($profile['user_social_media_url']) ?>" name="socialMediaURL" type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm py-2 px-3">
         </div>
+        <?php if (array_key_exists('socialMediaURL', $errors)) : ?>
+            <div class="bg-gray-100 mt-2 p-2 text-red-500">
+                <?php echo e($errors['socialMediaURL'][0]); ?>
+            </div>
+        <?php endif; ?>
         <div class="mt-6">
             <label class="block ">
                 <span class="text-gray-700">Country</span>
@@ -49,18 +72,22 @@
         <!-- Confirm Password -->
         <div class="mt-6">
             <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Enter Your Income </label>
-            <input type="password" id="password_confirmation" name="password_confirmation" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm py-2 px-3">
+            <input type="text" value="<?php echo e($profile['income']); ?>" id="income" name="income" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm py-2 px-3">
         </div>
-
-        <div class="mt-6">
-            <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Confirm New Password</label>
-            <input type="password" id="password_confirmation" name="password_confirmation" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm py-2 px-3">
-        </div>
-
+        <?php if (array_key_exists('income', $errors)) : ?>
+            <div class="bg-gray-100 mt-2 p-2 text-red-500">
+                <?php echo e($errors['income'][0]); ?>
+            </div>
+        <?php endif; ?>
         <!-- Update Button -->
         <div class="mt-6">
             <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Update Account</button>
         </div>
+        <!-- Update Button -->
+        <div class="mt-4">
+            <a href="/profile/updatePassword" class="hover:bg-indigo-500">Update Passowrd [click] </a>
+        </div>
+        <input type="hidden" name="balance" value="<?php echo e(((float) $profile['income'] - (float) $total_amt['total_transaction']) + $profile['balance']); ?>">
     </form>
 
     <!-- Horizontal Line with Squares -->
@@ -97,7 +124,12 @@
         <!-- Balance -->
         <div class="text-center">
             <div class="text-sm font-medium text-gray-700 mb-1">Balance</div>
-            <div class="text-lg font-semibold text-gray-900">7000</div>
+            <div class="text-lg font-semibold text-gray-900">
+                <?php
+                echo e(((float) $profile['income'] - (float) $total_amt['total_transaction']) + $profile['balance']);
+                ?>
+
+            </div>
         </div>
     </div>
 </section>

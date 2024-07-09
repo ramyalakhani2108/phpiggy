@@ -37,6 +37,7 @@ function registerRoutes(App $app) //it will accpet app class instance for regist
     $app->setErrorHnadler([ErrorController::class, 'notFound']);
 
     $app->get('/profile/{user}', [ProfileController::class, 'profileView'])->add(AuthRequiredMiddleware::class); //with params using ID 
+    $app->post('/profile/{user}', [ProfileController::class, 'updateProfile'])->add(AuthRequiredMiddleware::class); //with params using ID 
 
 } //it will register routes 
 //using composer.json it will allow us to autoload this files 

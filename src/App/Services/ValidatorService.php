@@ -55,4 +55,20 @@ class ValidatorService
             'date' => ['required', 'dateformat:Y-m-d']
         ]);
     }
+
+    public function validateProfile(array $formData)
+    {
+        $this->validator->validate($formData, [
+            'email' => ['required', 'email'],
+            'income' => ['required', 'numeric'],
+            'country' => ['required', 'in:USA,Canada,Maxico'],
+            'socialMediaURL' => ['required', 'url'],
+            'username' => ['required'],
+            'age' => ['required', 'min:18'], //adding custom parameters to rule
+
+
+
+
+        ]);
+    }
 }

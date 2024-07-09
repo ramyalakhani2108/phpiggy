@@ -23,18 +23,22 @@ class ProfileService
         ])->find();
     }
 
-    public function update(array $formData, int $id)
+    public function update(array $formData)
     {
-        $formattedDate = "{$formData['date']} 00:00:00";
-        $query = "UPDATE transactions SET tran_description=:desc,tran_amount=:amt,tran_date=:date WHERE tran_id=:id AND user_id=:user_id";
+
+        $query = "UPDATE users SET user_email=:eml,user_age=:age,user_country=:ctry,user_social_media_url=:soci,income=:inc,balance=:bal,username=:un WHERE user_id=:uid";
         $this->db->query($query, [
-            'id' => $id,
-            'user_id' => $_SESSION['user_id'],
-            'desc' => $formData['description'],
-            'amt' => $formData['amount'],
-            'date' => $formattedDate
+            'eml' => $formData['email'],
+            'age' => $formData['age'],
+            'uid' => $_SESSION['user_id'],
+            'ctry' => $formData['country'],
+            'soci' => $formData['socialMediaURL'],
+            'inc' => $formData['income'],
+            'bal' => $formData['balance'],
+            'un' => $formData['username'],
         ]);
     }
+
 
     public function delete(int $id)
     {
