@@ -28,6 +28,7 @@ class ValidatorService
     public function validateRegister(array $formData)
     {
         $this->validator->validate($formData, [
+            'username' => ['required'],
             'email' => ['required', 'email'],
             'age' => ['required', 'min:18'], //adding custom parameters to rule
             'country' => ['required', 'in:USA,Canada,Maxico'],

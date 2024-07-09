@@ -129,6 +129,18 @@
 
         <!-- Email -->
         <label class="block">
+            <span class="text-gray-700">Username</span>
+            <input id="username" value="<?php echo e($oldFormData['username'] ?? "");  ?>" name="username" type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required />
+            <div id="userError" class=" mt-2 p-2 text-red-500">
+            </div>
+            <?php if (array_key_exists('username', $errors)) : ?>
+                <div class="bg-gray-100 mt-2 p-2 text-red-500">
+                    <?php echo e($errors['username'][0]); ?>
+                </div>
+            <?php endif; ?>
+        </label>
+        <!-- Email -->
+        <label class="block">
             <span class="text-gray-700">Email address</span>
             <input id="email" value="<?php echo e($oldFormData['email'] ?? "");  ?>" name="email" type="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="john@example.com" required />
             <div id="emailError" class=" mt-2 p-2 text-red-500">
@@ -226,7 +238,8 @@
             Submit
         </button>
     </form>
-    <?php echo dd($oldFormData); ?>
+    <?php //echo dd($oldFormData); 
+    ?>
 </section>
 
 

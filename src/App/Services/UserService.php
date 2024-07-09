@@ -50,8 +50,9 @@ class UserService
     {
         $password = password_hash($formData['password'], PASSWORD_BCRYPT, ['cost' => 12]);
         $formData['email'] = e($formData['email']);
-        $query = "INSERT INTO users (user_email,user_pass,user_age,user_country,user_social_media_url) VALUES(:email,:pass,:age,:country,:url)";
+        $query = "INSERT INTO users (username,user_email,user_pass,user_age,user_country,user_social_media_url) VALUES(:un,:email,:pass,:age,:country,:url)";
         $this->db->query($query, [
+            'un' => $formData['username'],
             'email' => $formData['email'],
             'pass' => $password,
             'age' => $formData['age'],
