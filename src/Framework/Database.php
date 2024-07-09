@@ -45,4 +45,9 @@ class Database
     {
         return $this->connection->lastInsertId();
     } //it gives last id inserted
+
+    public function findAll()
+    {
+        return $this->stmt->fetchAll();
+    }
 }

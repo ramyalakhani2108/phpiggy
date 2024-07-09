@@ -21,6 +21,7 @@
             <a href="/" class="-m-1.5 p-1.5 text-white text-2xl font-bold">PHPiggy</a>
             <!-- Navigation Links -->
             <div class="flex lg:gap-x-10">
+
                 <a href="/about" class="text-gray-300 hover:text-white transition">About</a>
 
 
@@ -32,6 +33,7 @@
 
                         Logout
                     </a>
+                    <a href="/profile/<?php echo e($_SESSION['user_id']); ?>" class="text-gray-300 hover:text-white transition">Profile</a>
                 <?php else : ?>
                     <a href="/login" class="text-gray-300 hover:text-white transition">Login</a>
                     <a href="/register" class="text-gray-300 hover:text-white transition">Register</a>

@@ -57,8 +57,19 @@ class App
         return $this;
     }
 
+    public function delete(string $path, array $controller): App //accept the route name as path and array of data [contoller class and function name]
+    {
+        $this->router->add("DELETE", $path, $controller); //we are using get method instead of post because it is okay to show just a name of route for understanding
+        return $this;
+    }
+
     public function add(string $middleware)
     {
         $this->router->addRouteMiddleware($middleware);
+    }
+
+    public function setErrorHnadler(array $controller)
+    {
+        $this->router->setErrorHandler($controller);
     }
 }

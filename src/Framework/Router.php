@@ -7,16 +7,22 @@ namespace Framework;
 class Router
 {
     private array $routes = []; //creating an empty array which stores the routes 
+
     private array $middlewares = []; //creating an empty array which stores middleware 
+    private array $errorHandler = [];
 
     public function add(string $method, string $path, array $controller) //accpeting three parameter method,routename and array of data[controller class namespace and its function to render]
     {
         $path = $this->normalizePath($path); //sending the path entered by developer to normalized it
+
+        $regexPath = preg_replace('#{[^/]+}#', '([^/]+)', $path);
+
         $this->routes[] = [
             'path' => $path,
             'method' => strtoupper($method),
             'controller' => $controller,
-            'middlewares' => [] //each route going to store its own middleware 
+            'middlewares' => [],
+            'regexPath' => $regexPath //each route going to store its own middleware 
         ]; //this will create a multi dimentional array for storing route requested
         // dd($this->routes);
 
@@ -54,11 +60,11 @@ class Router
     {
         $path = $this->normalizePath($path); //getting the normalized path with standard method
 
-        $method = strtoupper($method);
-
+        $method = strtoupper($_POST['_METHOD'] ?? $method); //it check if the method have _method then it will assign it delete
+        // dd($method);
         foreach ($this->routes as $route) {
             if (
-                !preg_match("#^{$route['path']}$#", $path) ||
+                !preg_match("#^{$route['regexPath']}$#", $path, $paramValues) || //parameter is marked as refereces will create the variable which will then be accessible in our method 
                 $route['method'] !== $method
             ) {
                 // echo "#^{$route['path']}$#";
@@ -66,12 +72,21 @@ class Router
             } //this condition will only executes when the path in routes or method dont matches exactly with dispach parameters  
             //basically above method is just finding the exact matching route from stored routes 
 
+            array_shift($paramValues); //remove the entire path and it will take only that value which we need 
+
+            preg_match_all('#{([^/]+)}#', $route['path'], $paramKeys); //it will return all possible values 
+            $paramKeys = $paramKeys[1];
+
+
+            $params = array_combine($paramKeys, $paramValues); //making a key value pair of parameters [transaction]
+            // dd($params);
+
             [$class, $function] = $route['controller']; //this will saperate class name and function 
 
             $controllerInstance = $container ? $container->resolve($class) :  new $class(); //completely acceptable to provide a string after the new keyword as long as the string points to the specific class with the namespace
             //in this if we provide the container then it will go to that resolve method with the class name 
 
-            $action = fn () => $controllerInstance->{$function}(); //allow to pass a string as a method name after the arrow 
+            $action = fn () => $controllerInstance->{$function}($params); //allow to pass a string as a method name after the arrow 
             // $allMiddleware = [...$this->routes['middleware'], ...$this->middlewares]; //order matters
             //middleware registered last executed first middleware first and root middleware last 
 
@@ -88,6 +103,8 @@ class Router
             $action();
             return;
         }
+
+        $this->dipatchNotFound($container);
     }
 
     public function addMiddleware(string $middleware)
@@ -100,5 +117,23 @@ class Router
     {
         $lastRouteKey = array_key_last($this->routes);
         $this->routes[$lastRouteKey]['middlewares'][] = $middleware;
+    }
+
+    public function setErrorHandler(array $controller)
+    {
+        $this->errorHandler = $controller;
+    }
+    public function dipatchNotFound(?Container $container)
+    {
+        [$class, $function] = $this->errorHandler;
+        $controlllerInstance = $container ? $container->resolve($class) : new $class();
+
+        $action = fn () => $controlllerInstance->$function();
+
+        foreach ($this->middlewares as $middleware) {
+            $middlewareInstance = $container ? $container->resolve($middleware) : new $middleware();
+            $action = fn () => $middlewareInstance->process($action);
+        }
+        $action();
     }
 }

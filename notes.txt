@@ -155,3 +155,16 @@ Either way , the ultimate goal is to send a request to our site without user's p
 
 Synchronizer token pattern 
 A technique where the application produces a secret token embedded into page
+
+
+
+what are query parameter ?
+they are feature to storing data directly in a URL
+
+
+ what are magic numbers ??
+
+ They are special numbers holding a special meaning in our program 
+ problem is ->meanings aren't clear of it 
+ like PDO:ATTR_DEFAULT_FETCH_MODE = 19
+ 

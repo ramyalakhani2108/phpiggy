@@ -6,7 +6,7 @@ declare(strict_types=1);
 
 use Framework\{TemplateEngine, Container, Database};
 use App\Config\Paths;
-use App\Services\{ValidatorService, UserService};
+use App\Services\{ProfileService, ReceiptService, ValidatorService, UserService, TransactionService};
 
 
 
@@ -34,6 +34,18 @@ return [
         $db = $container->get(Database::class);
 
         return new UserService($db);
+    },
+    TransactionService::class => function (Container $container) {
+        $db = $container->get(Database::class);
+        return new TransactionService($db);
+    },
+    ReceiptService::class => function (Container $container) {
+        $db = $container->get(Database::class);
+        return new ReceiptService($db);
+    },
+    ProfileService::class => function (Container $container) {
+        $db = $container->get(Database::class);
+        return new ProfileService($db);
     }
 
 ];
